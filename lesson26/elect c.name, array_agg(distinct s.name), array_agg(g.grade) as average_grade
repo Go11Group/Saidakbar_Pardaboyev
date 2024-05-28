@@ -1,0 +1,8 @@
+   name   |                                                                                               array_agg                                                                                               |              average_grade              
+----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------
+ Flatter  | {Nappi,Nappi,Sharapat}                                                                                                                                                                                | {5,5,NULL}
+ Golang11 | {Saidakbar,Iskandar,Muhammadjon,Saidakbar,Iskandar,Saidakbar,Muhammadjon,Saidakbar,Iskandar,Muhammadjon,Saidakbar,Iskandar,Muhammadjon,Saidakbar,Iskandar,Muhammadjon,Muhammadjon,Iskandar,Saidakbar} | {5,4,5,4,2,5,4,5,4,4,4,2,5,1,2,4,2,1,5}
+ PHP      | {NULL}                                                                                                                                                                                                | {NULL}
+ .Net     | {Javlon,Javlon,Javlon,Ibragim,Ibragim,Javlon,Ibragim,Ibragim,Javlon,Ibragim,Ibragim}                                                                                                                  | {3,1,3,3,1,5,3,4,3,5,5}
+(4 rows)
+
