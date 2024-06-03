@@ -110,12 +110,64 @@ func main() {
 	// if err != nil {
 	// 	panic(err)
 	// }
+
+	user_products := postgres.NewUser_ProductsRepo(db)
+
+	// // Add product to user's produts
+	// usersGroup, err := users.GetUser(model.Filter{})
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// user := (*usersGroup)[0]
+	// productsGroup, err := products.GetProduct(model.FilterProduct{})
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// product := (*productsGroup)[1]
+	// err = user_products.CreateUserProduct(user, product)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// // Get user's pruducts
+	// id := 2
+	// userId := 3
+	// productId := 5
+	// filter := model.FilterUserProduct{
+	// 	Id:      &id,
+	// 	User_id: &userId,
+	// 	Product_id: &productId,
+	// }
+	// userProductsGroup, err := user_products.GetUserProduct(filter)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// for _, user_product := range *userProductsGroup {
+	// 	fmt.Printf("%+v\n", user_product)
+	// }
+
+	// // Update user's pruduct information
+	// usersProdectsGroup, err := user_products.GetUserProduct(model.FilterUserProduct{})
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// userProducts := (*usersProdectsGroup)[1]
+	// userProducts.Product_id = 10
+	// err = user_products.UpdateUserProduct(&userProducts)
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// // Delete user's pruduct information
+	// usersProdectsGroup, err := user_products.GetUserProduct(model.FilterUserProduct{})
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// userProducts := (*usersProdectsGroup)[1]
+	// err = user_products.DeleteUserProduct(&userProducts)
+	// if err != nil {
+	// 	panic(err)
+	// }
 }
-
-// userni productslarida create, update, delete qilinganda,
-// transactiondan foydalanilsin. Siklda aylantirgan holda.
-
-// Crudlar:
-// user_products:(tableni o'zingiz yozing)
-// Bu tableda UserProduct ma'lumotlari saqlanadi.
-// Aynan Userni productlarini create, read update qilishda transactionlardan foydalaning.
