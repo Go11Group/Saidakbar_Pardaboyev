@@ -1,0 +1,5 @@
+package mockdatagenerator
+
+func ProblemsTopicsGenerator() {
+
+}
