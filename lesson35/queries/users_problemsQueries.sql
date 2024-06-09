@@ -6,7 +6,7 @@ create table languages(
     deleted_at timestamp
 );
 
-create type submission_statuses as enum('Wrong Answer', 'Time Limit Exceeded', 'Memory Limit Exceeded', 'Runtime Error', 'Compile Error');
+create type submission_statuses as enum('Eccepted', 'Wrong Answer', 'Time Limit Exceeded', 'Memory Limit Exceeded', 'Runtime Error', 'Compile Error');
 
 create table submissions(
     id uuid primary key default gen_random_uuid() NOT NULL,

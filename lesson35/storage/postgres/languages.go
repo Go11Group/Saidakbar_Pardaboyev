@@ -27,7 +27,7 @@ func (l *Languages) CreateLanguage(language *model.Language) error {
 }
 
 // Read All
-func (l *Languages) GetLanguage(filter *model.FilterLanguage) ([]model.Language, error) {
+func (l *Languages) GetLanguages(filter *model.FilterLanguage) ([]model.Language, error) {
 	languages := []model.Language{}
 	argums := []interface{}{}
 	query := `select * from languages where deleted_at is null`
@@ -40,7 +40,6 @@ func (l *Languages) GetLanguage(filter *model.FilterLanguage) ([]model.Language,
 	if err != nil {
 		return nil, err
 	}
-
 	for rows.Next() {
 		language := model.Language{}
 		err := rows.Scan(&language.Id, &language.Name,

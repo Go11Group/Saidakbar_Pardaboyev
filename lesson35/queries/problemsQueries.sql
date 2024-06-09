@@ -2,7 +2,7 @@ create type problem_status as enum('Easy', 'Medium', 'Hard');
 
 create table topics(
     id uuid primary key default gen_random_uuid() NOT NULL,
-    name varchar NOT NULL,
+    name varchar unique NOT NULL,
     created_at timestamp default current_timestamp NOT NULL,
     updated_at timestamp,
     deleted_at timestamp

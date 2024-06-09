@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"leetcode/model"
 	"time"
+
+	"github.com/lib/pq"
 )
 
 type Problems struct {
@@ -25,7 +27,7 @@ func (p *Problems) CreateProblem(problem *model.Problem) error {
 	query := `insert into problems(title,status,description,
 		examples,constraints) values($1,$2,$3,$4,$5)`
 	_, err = tr.Exec(query, problem.Title, problem.Status, problem.Description,
-		problem.Examples, problem.Constraints)
+		pq.Array(problem.Examples), pq.Array(problem.Constraints))
 	return err
 }
 
