@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"leetcode/model"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 // create
@@ -57,15 +59,63 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 
 // read By One
 func (h *Handler) GetUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
 
+	if _, ok := vars["id"]; !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Error with getting id from query"))
+		return
+	}
+	id := vars["id"]
+
+	user, err := h.Users.GetUserById(id)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprintf("Error with getting data with the id: %s", err)))
+		return
+	}
+	err = json.NewEncoder(w).Encode(user)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprintf("Error with converting data to json: %s", err)))
+		return
+	}
 }
 
 // update
-func (h *Handler) UpdateUsers(w http.ResponseWriter, r *http.Request) {
-
+func (h *Handler) UpdateUser(w http.ResponseWriter, r *http.Request) {
+	user := &model.User{}
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprintf("Error with taking body from front: %s", err)))
+		return
+	}
+	err = h.Users.UpdateUser(user)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprintf("Error with update data in database: %s", err)))
+		return
+	}
+	w.Write([]byte("Updated user successfully"))
 }
 
 // delete
-func (h *Handler) DeleteUsers(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
 
+	if _, ok := vars["id"]; !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Error with getting id from query"))
+		return
+	}
+	id := vars["id"]
+
+	err := h.Users.DeleteUser(id)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprintf("Error with deleting data from database: %s", err)))
+		return
+	}
+	w.Write([]byte("Deleted user successfully"))
 }

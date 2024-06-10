@@ -17,6 +17,11 @@ func NewSubmissionsRouter(sb *mux.Router, handler *handler.Handler) *Submissions
 
 func SubmissionsServer(mainRouter *mux.Router, handler *handler.Handler) {
 	sb := mainRouter.PathPrefix("/Submissions").Subrouter()
-	NewSubmissionsRouter(sb, handler)
+	r := NewSubmissionsRouter(sb, handler)
 
+	r.SubmissionsRouter.HandleFunc("/Create", r.Handler.CreateSubmission).Methods("POST")
+	r.SubmissionsRouter.HandleFunc("/Get", r.Handler.GetSubmissions).Methods("GET")
+	r.SubmissionsRouter.HandleFunc("/{id}", r.Handler.GetSubmissionByID).Methods("GET")
+	r.SubmissionsRouter.HandleFunc("/Update", r.Handler.UpdateSubmission).Methods("PUT")
+	r.SubmissionsRouter.HandleFunc("/{id}", r.Handler.DeleteSubmission).Methods("DELETE")
 }

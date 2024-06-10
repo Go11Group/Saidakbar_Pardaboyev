@@ -21,5 +21,7 @@ func UsersServer(LeetcodeRouter *mux.Router, handler *handler.Handler) {
 
 	r.UsersRouter.HandleFunc("/Create", r.Handler.CreateUsers).Methods("POST")
 	r.UsersRouter.HandleFunc("/Get", r.Handler.GetUsers).Methods("GET")
-	// r.UsersRouter.HandleFunc("/{id}", r.Handler.GetUsers).Methods("PUT")
+	r.UsersRouter.HandleFunc("/{id}", r.Handler.GetUser).Methods("GET")
+	r.UsersRouter.HandleFunc("/Update", r.Handler.UpdateUser).Methods("PUT")
+	r.UsersRouter.HandleFunc("/{id}", r.Handler.DeleteUser).Methods("DELETE")
 }

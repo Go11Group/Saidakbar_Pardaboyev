@@ -17,6 +17,11 @@ func NewLanguageRouter(l *mux.Router, handler *handler.Handler) *LanguagesRouter
 
 func LanguageServer(mainRouter *mux.Router, handler *handler.Handler) {
 	l := mainRouter.PathPrefix("/Language").Subrouter()
-	NewLanguageRouter(l, handler)
+	r := NewLanguageRouter(l, handler)
 
+	r.LanguagesRouter.HandleFunc("/Create", r.Handler.CreateLanguages).Methods("POST")
+	r.LanguagesRouter.HandleFunc("/Get", r.Handler.GetLanguages).Methods("GET")
+	r.LanguagesRouter.HandleFunc("/{id}", r.Handler.GetLanguageByID).Methods("GET")
+	r.LanguagesRouter.HandleFunc("/Update", r.Handler.UpdateLanguage).Methods("PUT")
+	r.LanguagesRouter.HandleFunc("/{id}", r.Handler.DeleteLanguage).Methods("DELETE")
 }

@@ -17,6 +17,11 @@ func NewTopicsRouter(tr *mux.Router, handler *handler.Handler) *TopicsRouter {
 
 func TopicsServer(mainRouter *mux.Router, handler *handler.Handler) {
 	tr := mainRouter.PathPrefix("/Topics").Subrouter()
-	NewTopicsRouter(tr, handler)
+	r := NewTopicsRouter(tr, handler)
 
+	r.TopicsRouter.HandleFunc("/Create", r.Handler.CreateTopic).Methods("POST")
+	r.TopicsRouter.HandleFunc("/Get", r.Handler.GetTopics).Methods("GET")
+	r.TopicsRouter.HandleFunc("/{id}", r.Handler.GetTopicByID).Methods("GET")
+	r.TopicsRouter.HandleFunc("/Update", r.Handler.UpdateTopic).Methods("PUT")
+	r.TopicsRouter.HandleFunc("/{id}", r.Handler.DeleteTopic).Methods("DELETE")
 }
