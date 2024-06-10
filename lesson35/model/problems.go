@@ -6,8 +6,8 @@ type Problem struct {
 	Title       string
 	Status      string
 	Description string
-	Examples    []uint8
-	Constraints []uint8
+	Examples    []string
+	Constraints []string
 	Time
 }
 

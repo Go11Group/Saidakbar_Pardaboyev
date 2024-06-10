@@ -60,8 +60,8 @@ func (p *Problems) GetProblems(filter *model.FilterProduct) ([]model.Problem, er
 	for rows.Next() {
 		problem := model.Problem{}
 		err := rows.Scan(&problem.Id, &problem.Problem_num, &problem.Title,
-			&problem.Status, &problem.Description, &problem.Examples,
-			&problem.Constraints, &problem.Created_at, &problem.Updated_at,
+			&problem.Status, &problem.Description, pq.Array(&problem.Examples),
+			pq.Array(&problem.Constraints), &problem.Created_at, &problem.Updated_at,
 			&problem.Deleted_at)
 		if err != nil {
 			return nil, err
@@ -80,8 +80,8 @@ func (p *Problems) GetProblemById(ProblemId string) (model.Problem, error) {
 	query := `select * from problems where id=$1 and deleted_at is null`
 	row := p.DB.QueryRow(query, ProblemId)
 	err := row.Scan(&problem.Id, &problem.Problem_num, &problem.Title,
-		&problem.Status, &problem.Description, &problem.Examples,
-		&problem.Constraints, &problem.Created_at, &problem.Updated_at,
+		&problem.Status, &problem.Description, pq.Array(&problem.Examples),
+		pq.Array(&problem.Constraints), &problem.Created_at, &problem.Updated_at,
 		&problem.Deleted_at)
 	return problem, err
 }

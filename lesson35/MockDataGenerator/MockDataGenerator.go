@@ -1,8 +1,6 @@
 package mockdatagenerator
 
 import (
-	"fmt"
-	"leetcode/model"
 	"leetcode/storage/postgres"
 )
 
@@ -51,26 +49,26 @@ func (r *Repos) Mockdatagenerator() error {
 	// 	return err5
 	// }
 
-	// Adding mock submissions
-	users, err := r.Users.GetUsers(&model.FilterUser{})
-	if err != nil {
-		return err
-	}
+	// // Adding mock submissions
+	// users, err := r.Users.GetUsers(&model.FilterUser{})
+	// if err != nil {
+	// 	return err
+	// }
 
-	problems, err := r.Problems.GetProblems(&model.FilterProduct{})
-	if err != nil {
-		return err
-	}
-	languages, err := r.Languages.GetLanguages(&model.FilterLanguage{})
-	if err != nil {
-		return err
-	}
+	// problems, err := r.Problems.GetProblems(&model.FilterProduct{})
+	// if err != nil {
+	// 	return err
+	// }
+	// languages, err := r.Languages.GetLanguages(&model.FilterLanguage{})
+	// if err != nil {
+	// 	return err
+	// }
 
-	err6 := SubmissionGenerator(r.Submissions, users, problems, languages)
-	if err6 != nil {
-		return err6
-	}
+	// err6 := SubmissionGenerator(r.Submissions, users, problems, languages)
+	// if err6 != nil {
+	// 	return err6
+	// }
 
-	fmt.Println("Mock data muvaffaqiyatli qo'shildi")
+	// fmt.Println("Mock data muvaffaqiyatli qo'shildi")
 	return nil
 }
