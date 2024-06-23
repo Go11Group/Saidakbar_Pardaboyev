@@ -1,133 +1,44 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
-	"io/ioutil"
-	"log"
+	"io"
 	"net/http"
+	"sync"
 )
 
 func main() {
-
-	requestForUsers()
+	client := http.Client{}
+	wait := sync.WaitGroup{}
+	wait.Add(1000000)
+	for i := 0; i < 1000000; i++ {
+		go post(&client, wait)
+	}
+	wait.Wait()
 }
 
-func requestForUsers() {
-	// // create user
-	// client := &http.Client{}
-	// newUser := `{
-	// 	"name": "Iskandar",
-	// 	"email": "sdfghj@gmail.com",
-	// 	"birthday": "2005-06-11T15:04:05Z",
-	// 	"password": "12345678"
-	// }`
-
-	// req, err := http.NewRequest("POST", "http://localhost:8080/exam/users/create", bytes.NewBuffer([]byte(newUser)))
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// req.Header.Set("Content-Type", "application/json")
-
-	// resp, err := client.Do(req)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer resp.Body.Close()
-
-	// body, err := ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(string(body))
-
-	// // get Users by filter
-	// client := &http.Client{}
-	// getReq, err := http.NewRequest("GET", "http://localhost:8080/exam/users/getall", nil)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// q := getReq.URL.Query()
-	// q.Add("limit", "1")
-	// getReq.URL.RawQuery = q.Encode()
-
-	// resp, err := client.Do(getReq)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer resp.Body.Close()
-
-	// users, err := ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(string(users))
-
-	// // get by id
-	// client := &http.Client{}
-
-	// url := "http://localhost:8080/exam/users/3bda9776-bad4-4f6c-b295-eb95b266c9e9"
-	// req, err := http.NewRequest("GET", url, nil)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// resp, err := client.Do(req)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// user, err := ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(string(user))
-
-	// // update user
-	// client := &http.Client{}
-
-	// userInfoToUpdate := `{
-	// 	"name": "Iskandar",
-	// 	"email": "sdfghj@gmail.com",
-	// 	"birthday": "2005-06-11T15:04:05Z",
-	// 	"password": "87654321"
-	// }`
-
-	// url := "http://localhost:8080/exam/users/update/0177b2d8-c995-494d-a504-a0f5606c4c3c"
-	// res, err := http.NewRequest("PUT", url, bytes.NewBuffer([]byte(userInfoToUpdate)))
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// resp, err := client.Do(res)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// body, err := ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println(string(body))
-
-	// delete from users
-	client := &http.Client{}
-
-	url := "http://localhost:8080/exam/users/delete/0177b2d8-c995-494d-a504-a0f5606c4c3c"
-
-	req, err := http.NewRequest("DELETE", url, nil)
+func post(client *http.Client, w sync.WaitGroup) {
+	login := `
+  "login": "ID123444"
+  "password": "123444"
+  `
+	req, err := http.NewRequest("POST",
+		"https://erp.api.najottalim.uz/api/student/auth/sign-in",
+		bytes.NewBuffer([]byte(login)))
 	if err != nil {
-		log.Fatal()
+		fmt.Println(err)
 	}
-
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatal()
+		fmt.Println(err)
 	}
+	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	_, err = io.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal()
+		fmt.Println(err)
 	}
-	fmt.Println(string(body))
+	// fmt.Println(string(bdy))
+	w.Done()
 }
