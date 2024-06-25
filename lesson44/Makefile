@@ -1,8 +1,8 @@
 run-server:
-	go run server.go
+	go run server/server.go
 
 run-client:
-	go run client.go
+	go run client/client.go
 
 tidy:
 	go mod tidy
