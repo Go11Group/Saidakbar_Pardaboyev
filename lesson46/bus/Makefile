@@ -1,18 +1,11 @@
 CURRENT_DIR := $(shell pwd)
-DATABASE_URL="postgres://postgres:root@localhost:5432/weather?sslmode=disable"
+DATABASE_URL="postgres://postgres:root@localhost:5432/transport?sslmode=disable"
 
-run-server:
+run:
 	@go run server/main.go
-
-run-client:
-	@go run client/main.go
 
 gen-proto:
 	@scripts/gen-proto.sh $(CURRENT_DIR)
-
-tidy:
-	@go mod tidy
-	@go mod vendor
 
 mig-create:
 	@if [ -z "$(name)" ]; then \

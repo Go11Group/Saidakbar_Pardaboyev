@@ -4,9 +4,6 @@ DATABASE_URL="postgres://postgres:root@localhost:5432/weather_and_bus?sslmode=di
 run-server:
 	@go run server/main.go
 
-run-client:
-	@go run client/main.go
-
 gen-proto:
 	@scripts/gen-proto.sh $(CURRENT_DIR)
 

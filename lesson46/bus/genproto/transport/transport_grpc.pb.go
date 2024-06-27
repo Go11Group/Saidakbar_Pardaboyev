@@ -18,158 +18,158 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// TransportClient is the client API for Transport service.
+// TransportServerClient is the client API for TransportServer service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type TransportClient interface {
+type TransportServerClient interface {
 	GetBusSchedule(ctx context.Context, in *RequestBusSchedule, opts ...grpc.CallOption) (*ResponceBusSchedule, error)
 	TrackBusLocation(ctx context.Context, in *RequestBusLocation, opts ...grpc.CallOption) (*ResponceBusLocation, error)
 	ReportTrafficJam(ctx context.Context, in *RequestTrafficJam, opts ...grpc.CallOption) (*ResponceTrafficJam, error)
 }
 
-type transportClient struct {
+type transportServerClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTransportClient(cc grpc.ClientConnInterface) TransportClient {
-	return &transportClient{cc}
+func NewTransportServerClient(cc grpc.ClientConnInterface) TransportServerClient {
+	return &transportServerClient{cc}
 }
 
-func (c *transportClient) GetBusSchedule(ctx context.Context, in *RequestBusSchedule, opts ...grpc.CallOption) (*ResponceBusSchedule, error) {
+func (c *transportServerClient) GetBusSchedule(ctx context.Context, in *RequestBusSchedule, opts ...grpc.CallOption) (*ResponceBusSchedule, error) {
 	out := new(ResponceBusSchedule)
-	err := c.cc.Invoke(ctx, "/Transport/GetBusSchedule", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/TransportServer/GetBusSchedule", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *transportClient) TrackBusLocation(ctx context.Context, in *RequestBusLocation, opts ...grpc.CallOption) (*ResponceBusLocation, error) {
+func (c *transportServerClient) TrackBusLocation(ctx context.Context, in *RequestBusLocation, opts ...grpc.CallOption) (*ResponceBusLocation, error) {
 	out := new(ResponceBusLocation)
-	err := c.cc.Invoke(ctx, "/Transport/TrackBusLocation", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/TransportServer/TrackBusLocation", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *transportClient) ReportTrafficJam(ctx context.Context, in *RequestTrafficJam, opts ...grpc.CallOption) (*ResponceTrafficJam, error) {
+func (c *transportServerClient) ReportTrafficJam(ctx context.Context, in *RequestTrafficJam, opts ...grpc.CallOption) (*ResponceTrafficJam, error) {
 	out := new(ResponceTrafficJam)
-	err := c.cc.Invoke(ctx, "/Transport/ReportTrafficJam", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/TransportServer/ReportTrafficJam", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TransportServer is the server API for Transport service.
-// All implementations must embed UnimplementedTransportServer
+// TransportServerServer is the server API for TransportServer service.
+// All implementations must embed UnimplementedTransportServerServer
 // for forward compatibility
-type TransportServer interface {
+type TransportServerServer interface {
 	GetBusSchedule(context.Context, *RequestBusSchedule) (*ResponceBusSchedule, error)
 	TrackBusLocation(context.Context, *RequestBusLocation) (*ResponceBusLocation, error)
 	ReportTrafficJam(context.Context, *RequestTrafficJam) (*ResponceTrafficJam, error)
-	mustEmbedUnimplementedTransportServer()
+	mustEmbedUnimplementedTransportServerServer()
 }
 
-// UnimplementedTransportServer must be embedded to have forward compatible implementations.
-type UnimplementedTransportServer struct {
+// UnimplementedTransportServerServer must be embedded to have forward compatible implementations.
+type UnimplementedTransportServerServer struct {
 }
 
-func (UnimplementedTransportServer) GetBusSchedule(context.Context, *RequestBusSchedule) (*ResponceBusSchedule, error) {
+func (UnimplementedTransportServerServer) GetBusSchedule(context.Context, *RequestBusSchedule) (*ResponceBusSchedule, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBusSchedule not implemented")
 }
-func (UnimplementedTransportServer) TrackBusLocation(context.Context, *RequestBusLocation) (*ResponceBusLocation, error) {
+func (UnimplementedTransportServerServer) TrackBusLocation(context.Context, *RequestBusLocation) (*ResponceBusLocation, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TrackBusLocation not implemented")
 }
-func (UnimplementedTransportServer) ReportTrafficJam(context.Context, *RequestTrafficJam) (*ResponceTrafficJam, error) {
+func (UnimplementedTransportServerServer) ReportTrafficJam(context.Context, *RequestTrafficJam) (*ResponceTrafficJam, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReportTrafficJam not implemented")
 }
-func (UnimplementedTransportServer) mustEmbedUnimplementedTransportServer() {}
+func (UnimplementedTransportServerServer) mustEmbedUnimplementedTransportServerServer() {}
 
-// UnsafeTransportServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TransportServer will
+// UnsafeTransportServerServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TransportServerServer will
 // result in compilation errors.
-type UnsafeTransportServer interface {
-	mustEmbedUnimplementedTransportServer()
+type UnsafeTransportServerServer interface {
+	mustEmbedUnimplementedTransportServerServer()
 }
 
-func RegisterTransportServer(s grpc.ServiceRegistrar, srv TransportServer) {
-	s.RegisterService(&Transport_ServiceDesc, srv)
+func RegisterTransportServerServer(s grpc.ServiceRegistrar, srv TransportServerServer) {
+	s.RegisterService(&TransportServer_ServiceDesc, srv)
 }
 
-func _Transport_GetBusSchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TransportServer_GetBusSchedule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RequestBusSchedule)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TransportServer).GetBusSchedule(ctx, in)
+		return srv.(TransportServerServer).GetBusSchedule(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Transport/GetBusSchedule",
+		FullMethod: "/TransportServer/GetBusSchedule",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransportServer).GetBusSchedule(ctx, req.(*RequestBusSchedule))
+		return srv.(TransportServerServer).GetBusSchedule(ctx, req.(*RequestBusSchedule))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Transport_TrackBusLocation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TransportServer_TrackBusLocation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RequestBusLocation)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TransportServer).TrackBusLocation(ctx, in)
+		return srv.(TransportServerServer).TrackBusLocation(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Transport/TrackBusLocation",
+		FullMethod: "/TransportServer/TrackBusLocation",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransportServer).TrackBusLocation(ctx, req.(*RequestBusLocation))
+		return srv.(TransportServerServer).TrackBusLocation(ctx, req.(*RequestBusLocation))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Transport_ReportTrafficJam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TransportServer_ReportTrafficJam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RequestTrafficJam)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TransportServer).ReportTrafficJam(ctx, in)
+		return srv.(TransportServerServer).ReportTrafficJam(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Transport/ReportTrafficJam",
+		FullMethod: "/TransportServer/ReportTrafficJam",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransportServer).ReportTrafficJam(ctx, req.(*RequestTrafficJam))
+		return srv.(TransportServerServer).ReportTrafficJam(ctx, req.(*RequestTrafficJam))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Transport_ServiceDesc is the grpc.ServiceDesc for Transport service.
+// TransportServer_ServiceDesc is the grpc.ServiceDesc for TransportServer service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Transport_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "Transport",
-	HandlerType: (*TransportServer)(nil),
+var TransportServer_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "TransportServer",
+	HandlerType: (*TransportServerServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetBusSchedule",
-			Handler:    _Transport_GetBusSchedule_Handler,
+			Handler:    _TransportServer_GetBusSchedule_Handler,
 		},
 		{
 			MethodName: "TrackBusLocation",
-			Handler:    _Transport_TrackBusLocation_Handler,
+			Handler:    _TransportServer_TrackBusLocation_Handler,
 		},
 		{
 			MethodName: "ReportTrafficJam",
-			Handler:    _Transport_ReportTrafficJam_Handler,
+			Handler:    _TransportServer_ReportTrafficJam_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
