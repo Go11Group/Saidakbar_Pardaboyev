@@ -7,8 +7,8 @@ import (
 )
 
 type Handler struct {
-	Transport *pbT.TransportServerClient
-	Weather   *pbW.WeatherServiceClient
+	Transport pbT.TransportServerClient
+	Weather   pbW.WeatherServiceClient
 }
 
 func NewHandler() *Handler {

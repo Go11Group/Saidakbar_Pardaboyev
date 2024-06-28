@@ -1,9 +1,10 @@
 package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func (h *Handler) GetBusSchedule(g *gin.Context) {
-	// // get bus schedule
 	// ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	// defer cancel()
 	// resp, err := (*transportClient).GetBusSchedule(ctx, &pbTransport.RequestBusSchedule{BusNumber: 5})
