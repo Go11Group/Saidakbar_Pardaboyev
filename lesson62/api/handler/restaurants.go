@@ -14,7 +14,7 @@ import (
 
 func (h *Handler) CreateRestaurant(ctx *gin.Context) {
 	newres := models.RestaurantCreate{}
-// "a1ebb162-92cb-4f72-b9b2-141f26031575"
+	// "a1ebb162-92cb-4f72-b9b2-141f26031575"
 	err := json.NewDecoder(ctx.Request.Body).Decode(&newres)
 	if err != nil {
 		h.Logger.Error("Error with decoding url body", zap.Error(err))
@@ -51,4 +51,74 @@ func (h *Handler) CreateRestaurant(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, reswithFullInfo)
+}
+
+func (h *Handler) GetAllRestaurants(ctx *gin.Context) {
+	resp, err := h.Restaurant.GetAll(ctx)
+	if err != nil {
+		h.Logger.Error("Error with Getting all restaurant", zap.Error(err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest,
+			fmt.Sprintf("Error with Getting all restaurant: %s", err))
+		return
+	}
+	ctx.JSON(http.StatusOK, resp)
+}
+
+func (h *Handler) GetById(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		h.Logger.Error("Error with Getting id")
+		ctx.AbortWithStatusJSON(http.StatusBadRequest,
+			"Error with Getting id")
+		return
+	}
+
+	resp, err := h.Restaurant.GetById(ctx, id)
+	if err != nil {
+		h.Logger.Error("Error with Getting data from database", zap.Error(err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest,
+			fmt.Sprintf("Error with Getting data from database: %s", err))
+		return
+	}
+	ctx.JSON(http.StatusOK, resp)
+}
+
+func (h *Handler) UpdateRestaurant(ctx *gin.Context) {
+	restaurantToUpdate := models.RestaurantUpdate{}
+	// "a1ebb162-92cb-4f72-b9b2-141f26031575"
+	err := json.NewDecoder(ctx.Request.Body).Decode(&restaurantToUpdate)
+	if err != nil {
+		h.Logger.Error("Error with decoding url body", zap.Error(err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest,
+			fmt.Sprintf("Error with decoding url body: %s", err))
+		return
+	}
+
+	err = h.Restaurant.Update(ctx, &restaurantToUpdate)
+	if err != nil {
+		h.Logger.Error("Error with updating restaurant", zap.Error(err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest,
+			fmt.Sprintf("Error with updating restaurant: %s", err))
+		return
+	}
+	ctx.JSON(http.StatusOK, "restaurant was updated successfully")
+}
+
+func (h *Handler) DeleteRestaurant(ctx *gin.Context) {
+	id := ctx.Param("id")
+	if id == "" {
+		h.Logger.Error("Error with Getting id")
+		ctx.AbortWithStatusJSON(http.StatusBadRequest,
+			"Error with Getting id")
+		return
+	}
+
+	err := h.Restaurant.Delete(ctx, id)
+	if err != nil {
+		h.Logger.Error("Error with Getting data from database", zap.Error(err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest,
+			fmt.Sprintf("Error with Getting data from database: %s", err))
+		return
+	}
+	ctx.JSON(http.StatusOK, "restaurant was deleted successfully")
 }
