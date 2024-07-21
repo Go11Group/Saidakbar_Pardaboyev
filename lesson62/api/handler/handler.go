@@ -9,16 +9,17 @@ import (
 
 type Handler struct {
 	Restaurant *rd.RestaurantRepo
-	Meal       *rd.MealRepo
+	Users      *rd.UsersRepo
 	Logger     *zap.Logger
 }
 
 func NewHandler(sysconf *models.SystemConfig) *Handler {
-	meal := rd.NewMealClient(sysconf.DB)
-	restaurant := rd.NewRestaurantRepo(sysconf.DB)
+	users := rd.NewUsersClient(sysconf.DBR)
+	restaurant := rd.NewRestaurantRepo(sysconf.DBR)
+
 	return &Handler{
 		Restaurant: restaurant,
-		Meal:       meal,
+		Users:      users,
 		Logger:     sysconf.Logger,
 	}
 }

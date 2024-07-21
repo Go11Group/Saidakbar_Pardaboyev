@@ -12,10 +12,12 @@ import (
 func main() {
 	systemConfig, err := systemconfig.NewSystemConfig()
 	if err != nil {
-		log.Panicf("Error with creating system config", err)
+		log.Panicf("Error with creating system config: %s", err)
+		return
 	}
 
 	router := api.NewRouter(systemConfig)
+
 	if err := router.Run(":5555"); err != nil {
 		systemConfig.Logger.Panic("Error with running router", zap.Error(err))
 	}
